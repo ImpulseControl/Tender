@@ -24,6 +24,7 @@ User     - Person who bought ttem
  
 ###Categories
 ####Overview
+List of Categories and there budget
 ####Type Table
 |Name          |Type         |
 |:------------:|:-----------:|
@@ -36,7 +37,11 @@ User     - Person who bought ttem
 |End Date      |DATE         |
 |Is Current    |BOOLEAN      |
 ####Data
-
+ID           - Unique Identifier
+Interval     - Weekly, Monthly, Yearly
+Budget       - Amount for that Category
+Amount       - Amount currently spent for category
+User         - User who purchased item
 
 ###Users
 ####Overview

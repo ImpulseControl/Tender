@@ -1,8 +1,8 @@
-*Tender SQL Schema
+#Tender SQL Schema
 
-**Tables
+##Tables
 
-***Expenes
+###Expenses
 |Name          |Type         |
 |:------------:|:-----------:|
 |ID            |KEY          |
@@ -13,7 +13,7 @@
 |User          |TEXT         |
 
 
-***Categories
+###Categories
 |Name          |Type         |
 |:------------:|:-----------:|
 |ID            |KEY          |
@@ -27,7 +27,7 @@
 
 
 
-***Users
+###Users
 |Name          |Type         |
 |:------------:|:-----------:|
 |ID            |KEY          |

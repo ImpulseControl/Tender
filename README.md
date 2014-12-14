@@ -18,5 +18,4 @@ Documentation of this app is described Below
 
 ###Data
 ####SQLite Schema
-
-
+[a relative link](SQLiteSchema.md)

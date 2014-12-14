@@ -15,12 +15,12 @@ List Individialul Expense Items
 |Amount            |DOUBLE          |
 |User              |TEXT            |
 ####Data
-ID   - Unique Id for each Entry
-DATE - Date of Purchase 
-	Formatted: MM:DD:YY:HH:SS
-Category - Name of Ctegory Expense Item belongs to
-Amount - Expense Amount
-User - Person Who Bought Item
+ID       - Unique ID for each entry
+DATE     - Date of purchase 
+	Formatted: YYYY:MM:DD:HH:SS
+Category - Name of Category Expense Item belongs to
+Amount   - Expense amount
+User     - Person who bought ttem
  
 ###Categories
 ####Overview

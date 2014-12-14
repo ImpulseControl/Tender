@@ -4,14 +4,28 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.util.Log;
+
+import java.text.ParseException;
 
 
 public class MainActivity extends Activity {
+
+    private static DatabaseManager sessionData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Load/create sql
+        sessionData = new DatabaseManager(this);
+        try {
+            sessionData.addCategory("test", Interval.MONTHLY, 200.0, "December 1, 2014", "December 31, 2014");
+        } catch(ParseException e) {
+            Log.w("tag", "error fool");
+        }
+
     }
 
 

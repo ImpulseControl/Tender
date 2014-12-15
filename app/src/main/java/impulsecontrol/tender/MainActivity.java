@@ -11,7 +11,7 @@ import java.text.ParseException;
 
 public class MainActivity extends Activity {
 
-    private static DatabaseManager sessionData;
+    private static DatabaseHelper sessionData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +19,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Load/create sql
-        sessionData = new DatabaseManager(this);
-        try {
-            sessionData.addCategory("test", Interval.MONTHLY, 200.0, "December 1, 2014", "December 31, 2014");
-        } catch(ParseException e) {
-            Log.w("tag", "error fool");
-        }
+        sessionData = new DatabaseHelper(this);
+
 
     }
 

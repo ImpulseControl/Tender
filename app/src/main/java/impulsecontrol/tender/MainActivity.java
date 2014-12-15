@@ -2,24 +2,43 @@ package impulsecontrol.tender;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import java.text.ParseException;
+import java.util.Arrays;
 
 
 public class MainActivity extends Activity {
 
     private static DatabaseHelper sessionData;
 
+    private String[] NavTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.drawer_layout);
 
         //Load/create sql
         sessionData = new DatabaseHelper(this);
+
+        NavTitles = getResources().getStringArray(R.array.NavViews);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        Log.d("this is my array", "arr: " + Arrays.toString(NavTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, NavTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 
     }

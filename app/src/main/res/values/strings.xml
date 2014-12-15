@@ -4,5 +4,11 @@
     <string name="app_name">Tender</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array
+        name="NavViews">
+        <item>Weekyl</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
 
 </resources>

@@ -2,6 +2,9 @@ package impulsecontrol.tender;
 
 import android.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * Created by hummel on 12/14/14.
  *
@@ -9,18 +12,44 @@ import android.app.Fragment;
  */
 public class ListManager {
 
+    private ArrayList<Expense> Expenses;
+    private ArrayList<Card> Cards;
+    private Date date;
+    
+    private Fragment thisFragment;
 
-    public Expense ExpenseList[];   //List of currently displayed Expenses
+    public void populateList(Fragment fragment, Interval interval)
+    {
+        //thisFragment = fragment
+        //date = Get Date;
+        //Get Cards from Interval Enum
+        //Expenses = DataBase get(Interval,Date)
+        //For (Size of Expenses)
+        // {
+        // Card = CreateCard(Expense[i]
+        // thisFragment.addCard(Card)
+        // }
+    }
+
+    public void SetDate(Date date)
+    {
+        //this.date = date;
+        //updateFragment();
+
+    }
 
 
-    public void setFragment(Fragment fragment)
+    private void CreateCard(Expense Expense)
     {
 
     }
 
-    public void createCard(Fragment fragment, Expense Expense)
+    private void updateFragment()
     {
 
     }
+
+
+
 
 }

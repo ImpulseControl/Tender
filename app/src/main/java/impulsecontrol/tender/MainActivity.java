@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
                 R.layout.drawer_list_item, NavTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        NavigationManager nav;
+
 
 
     }
@@ -60,6 +62,8 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        //TODO get Fragment
+        //NavigationManager..
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -68,6 +72,8 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
     public class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {

@@ -21,6 +21,7 @@ public class NavigationManager
 
      NavigationManager()
      {
+         //For Types of Interval Create Fragment;
          for (Interval interval :Interval.values()) {
              Bundle args = new Bundle();
              args.putInt("interval", interval.getCode());
@@ -34,12 +35,10 @@ public class NavigationManager
 
     public static class CardListFragment extends Fragment
     {
-
+        private ListManager List;
         @Override
         public void onCreate(Bundle savedInstanceState)
         {
-            //Get Current Date/MOnth/Year
-                //TODO Make a cass do this
             super.onCreate(savedInstanceState);
         }
 
@@ -47,18 +46,13 @@ public class NavigationManager
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            //Fill With Cards
+            //Get Fragment Type (weekly, monthly, yearly)
             Bundle b = getArguments();
             int intervalValue = b.getInt("interval");
             Interval thisInterval  = Interval.get(intervalValue);
 
-            //Get Cards from Interval Enum
-            //ArrayList<Expense> Expenses = DataBase get(Interval,Week,Month,Year)
-            //For (Size of Expenses)
-            // {
-            // Card = CreateCard(Expense[i]
-            // this.addCard(Card)
-            // }
+            //TODO populate with Cards
+            //List.populateList(this,interval);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -66,13 +60,11 @@ public class NavigationManager
         @Override
         public void onResume()
         {
-            //CCheck if NEw Cards
-                //Add/Delete Cards
-            //Check IF Categories Change
-                //UPdate Categories
-
+            //TODO Check If Changes to Expenses
+            //List.checkChanges()
             super.onResume();
         }
+
 
         @Override
         public void onPause()

@@ -1,13 +1,12 @@
 package impulsecontrol.tender;
 
+import android.app.Fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Outline;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,15 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,6 +36,8 @@ public class MainActivity extends Activity {
     private ImageButton fab;
     final Context context = this;
 
+    private NavigationManager navigationManager;
+
     private String description;
     private String category;
     private Double amount;
@@ -51,6 +49,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
+         //TODO Add test fragment to Framelayout
+        Log.w("Bug","Attempt: Navigation Manager");
+        navigationManager = new NavigationManager(context);
+
+        Bundle args = new Bundle();
+
+        args.putInt("interval", Interval.WEEK.getCode());
+        CardListFragment newFrag = new CardListFragment();
+        newFrag.setContext(context);
+        newFrag.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.content_frame,newFrag).commit();
+
+
         //Load/create sql
         sessionData = new DatabaseHelper(this);
 
@@ -58,6 +70,7 @@ public class MainActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         fab = (ImageButton) findViewById(R.id.add_button);
+        //navigationManager = new NavigationManager();
 
         // Set the adapter for the list view
         Log.d("this is my array", "arr: " + Arrays.toString(NavTitles));
@@ -157,7 +170,6 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //TODO get Fragment
         //NavigationManager..
 
         //noinspection SimplifiableIfStatement
@@ -173,7 +185,9 @@ public class MainActivity extends Activity {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             //Pick Item to Display Based on Position
-            selectItem(position);
+            Fragment newfragment = navigationManager.getFragmentFromPosition(position);
+
+
             Log.w("Nav", "Position: " + position);
         }
     }

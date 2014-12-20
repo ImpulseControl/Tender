@@ -1,13 +1,9 @@
 package impulsecontrol.tender;
 
 import android.app.Fragment;
-import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,71 +12,35 @@ import java.util.ArrayList;
  */
 public class NavigationManager
 {
-    static public ArrayList<Fragment> Fragments;
-    static public Fragment currentFragment;
+    static public ArrayList<CardListFragment> Fragments;
+    static public Fragment currentListFragment;
+    static public Fragment currentChartFragment;
 
-     NavigationManager()
+     NavigationManager(Context context)
      {
          //For Types of Interval Create Fragment;
+         Fragments = new ArrayList<CardListFragment>();
+         Log.w("Bug", "Attempt: Interval For Loop");
          for (Interval interval :Interval.values()) {
+             Log.w("Bug","Attempt: New Budble");
              Bundle args = new Bundle();
+             Log.w("Bug","Attempt: Add to Budle");
              args.putInt("interval", interval.getCode());
+             Log.w("Bug","Attempt: New Card Fragement");
              CardListFragment newFrag = new CardListFragment();
+             newFrag.setContext(context);
+             Log.w("Bug","Attempt: Set Bundle to Card");
              newFrag.setArguments(args);
+             Log.w("Bug","Attempt: Add Fragment");
              Fragments.add(newFrag);
          }
      }
-
-
-
-    public static class CardListFragment extends Fragment
-    {
-        private ListManager List;
-        @Override
-        public void onCreate(Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            //Get Fragment Type (weekly, monthly, yearly)
-            Bundle b = getArguments();
-            int intervalValue = b.getInt("interval");
-            Interval thisInterval  = Interval.get(intervalValue);
-
-            //TODO populate with Cards
-            //List.populateList(this,interval);
-            return super.onCreateView(inflater, container, savedInstanceState);
-        }
-
-
-        @Override
-        public void onResume()
-        {
-            //TODO Check If Changes to Expenses
-            //List.checkChanges()
-            super.onResume();
-        }
-
-
-        @Override
-        public void onPause()
-        {
-            //Save Changes
-            super.onPause();
-        }
-    }
-
-
 
     public static Fragment getFragmentFromPosition(int position)
     {
         return Fragments.get(position);
     }
 
-
-
 }
+
+

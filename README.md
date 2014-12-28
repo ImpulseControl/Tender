@@ -1,15 +1,15 @@
 #Tender
 
-This app is co develeped by Kelsey Kerr and Kevin Hummel
+This app is co-developed by Kelsey Kerr and Kevin Hummel
 
 ##Overview
 
-Tender is a budget tracking app built for android. It is designed to give simply views of current expenses. the user can create categories, set there budget, and define the time intervals (weekly,montly,yearly). Information is shown in weekly,monthly and yearly views, with simply bar graphs showing how much youve spent and how 
+Tender is a budget tracking app built for android. It is designed to give simple views of current expenses. The user will be able to create categories, set their budget, and define the time intervals (weekly, montly, yearly). Information will be shown in weekly, monthly and yearly views, with bar graphs showing how much you have spent in each category.  
 
 ##Development
-Development of this application is on going. 
+Development of this application is on-going. 
 
-Documentation of this app is described Below
+Documentation of this app is described below
 
 ###GUI
 ####Card View

@@ -60,7 +60,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         category.setName("test");
         category.setInterval(Interval.MONTHLY);
         category.setBudget(200.0);
-        try{
+        try {
             category.setStartDate("December 1. 2014");
             category.setEndDate("December 31, 2014");
         } catch (ParseException e) {

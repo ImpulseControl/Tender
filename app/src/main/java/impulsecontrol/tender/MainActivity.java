@@ -2,28 +2,20 @@ package impulsecontrol.tender;
 
 import android.app.Fragment;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class MainActivity extends Activity {
@@ -33,15 +25,12 @@ public class MainActivity extends Activity {
     private String[] NavTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ImageButton fab;
     final Context context = this;
-
     private NavigationManager navigationManager;
 
-    private String description;
-    private String category;
-    private Double amount;
-    private Date date;
+    CardListFragment cardListFragment;
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
     @Override
@@ -49,19 +38,19 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
-         //TODO Add test fragment to Framelayout
-        Log.w("Bug","Attempt: Navigation Manager");
-        navigationManager = new NavigationManager(context);
 
         Bundle args = new Bundle();
-
         args.putInt("interval", Interval.WEEK.getCode());
-        CardListFragment newFrag = new CardListFragment();
-        newFrag.setContext(context);
-        newFrag.setArguments(args);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.content_frame,newFrag).commit();
 
+        //TODO Add test fragment to Framelayout
+        Log.w("Bug", "Attempt: Navigation Manager");
+        navigationManager = new NavigationManager(context);
+
+        cardListFragment = new CardListFragment();
+        cardListFragment.setContext(context);
+        fragmentTransaction.add(R.id.content_frame, cardListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
         //Load/create sql
         sessionData = new DatabaseHelper(this);
@@ -69,7 +58,6 @@ public class MainActivity extends Activity {
         NavTitles = getResources().getStringArray(R.array.NavViews);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        fab = (ImageButton) findViewById(R.id.add_button);
         //navigationManager = new NavigationManager();
 
         // Set the adapter for the list view
@@ -79,80 +67,6 @@ public class MainActivity extends Activity {
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         NavigationManager nav;
-
-        // add button listener
-        fab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                // get expense_dialog.xml view
-                LayoutInflater li = LayoutInflater.from(context);
-                View expenseDialogView = li.inflate(R.layout.expense_dialog, null);
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        context);
-
-                // set expense_dialog.xml to alertdialog builder
-                alertDialogBuilder.setView(expenseDialogView);
-
-                final EditText descriptionResult = (EditText) expenseDialogView
-                        .findViewById(R.id.editDescription);
-
-                final EditText categoryResult = (EditText) expenseDialogView
-                        .findViewById(R.id.editCategory);
-
-                final EditText amountResult = (EditText) expenseDialogView
-                        .findViewById(R.id.editAmount);
-
-                final DatePicker dateResult = (DatePicker) expenseDialogView
-                        .findViewById(R.id.editDate);
-
-                // set dialog message
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setTitle("Add An Expense")
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to results
-                                        //TODO:
-                                        // - error check dialog
-                                        // - if missing values, display message
-                                        // - save new object to database
-                                        // - create and display card
-                                        description = descriptionResult.getText().toString().trim();
-                                        category = categoryResult.getText().toString().trim();
-                                        amount = Double.parseDouble(amountResult.getText().toString().trim());
-
-                                        int day = dateResult.getDayOfMonth();
-                                        int month = dateResult.getMonth();
-                                        int year = dateResult.getYear();
-
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.set(year, month, day);
-
-                                        date = calendar.getTime();
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // show it
-                alertDialog.show();
-
-            }
-        });
-
 
     }
 
@@ -185,7 +99,7 @@ public class MainActivity extends Activity {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             //Pick Item to Display Based on Position
-            Fragment newfragment = navigationManager.getFragmentFromPosition(position);
+            //Fragment newfragment = navigationManager.getFragmentFromPosition(position);
 
 
             Log.w("Nav", "Position: " + position);

@@ -13,100 +13,85 @@ import java.util.Date;
 
 /**
  * Created by hummel on 12/14/14.
- *
+ * <p/>
  * Create and populate a Fragment with Card View
  */
 public class ListManager {
 
-    public  ListView listView;
-    public  ListAdapter listadapter;
+    public ListView listView;
+    public ListAdapter listadapter;
     private ArrayList<Expense> Expenses;
     private ArrayList<Card> Cards;
     private Date date;
-    
+
     private Fragment thisFragment;
 
-    ListManager(Context context)
-    {
+    ListManager(Context context) {
         listView = new ListView(context);
-        listadapter = new ListAdapter()
-        {
+        listadapter = new ListAdapter() {
             @Override
-            public boolean areAllItemsEnabled()
-            {
+            public boolean areAllItemsEnabled() {
                 return false;
             }
 
             @Override
-            public boolean isEnabled(int position)
-            {
+            public boolean isEnabled(int position) {
                 return false;
             }
 
             @Override
-            public void registerDataSetObserver(DataSetObserver observer)
-            {
+            public void registerDataSetObserver(DataSetObserver observer) {
 
             }
 
             @Override
-            public void unregisterDataSetObserver(DataSetObserver observer)
-            {
+            public void unregisterDataSetObserver(DataSetObserver observer) {
 
             }
 
             @Override
-            public int getCount()
-            {
+            public int getCount() {
                 return 0;
             }
 
             @Override
-            public Object getItem(int position)
-            {
+            public Object getItem(int position) {
                 return null;
             }
 
             @Override
-            public long getItemId(int position)
-            {
+            public long getItemId(int position) {
                 return 0;
             }
 
             @Override
-            public boolean hasStableIds()
-            {
+            public boolean hasStableIds() {
                 return false;
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent)
-            {
+            public View getView(int position, View convertView, ViewGroup parent) {
                 return null;
             }
 
             @Override
-            public int getItemViewType(int position)
-            {
+            public int getItemViewType(int position) {
                 return 0;
             }
 
             @Override
-            public int getViewTypeCount()
-            {
+            public int getViewTypeCount() {
                 return 0;
             }
 
             @Override
-            public boolean isEmpty()
-            {
+            public boolean isEmpty() {
                 return false;
             }
         };
     }
 
-    public void populateList(Fragment fragment, Interval interval)
-    {
+    public void populateList(Fragment fragment, Interval interval) {
         //thisFragment = fragment
         //date = Get Date;
         //Get Cards from Interval Enum
@@ -118,25 +103,20 @@ public class ListManager {
         // }
     }
 
-    public void SetDate(Date date)
-    {
+    public void SetDate(Date date) {
         //this.date = date;
         //updateFragment();
 
     }
 
 
-    private void CreateCard(Expense Expense)
-    {
+    private void CreateCard(Expense Expense) {
 
     }
 
-    private void updateFragment()
-    {
+    private void updateFragment() {
 
     }
-
-
 
 
 }

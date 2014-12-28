@@ -79,7 +79,7 @@ public class Category {
         return this.startDate;
     }
 
-    public void setStartDate(String startDate) throws ParseException{
+    public void setStartDate(String startDate) throws ParseException {
         this.startDate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(startDate);
     }
 
@@ -87,7 +87,7 @@ public class Category {
         return this.endDate;
     }
 
-    public void setEndDate(String endDate) throws ParseException{
+    public void setEndDate(String endDate) throws ParseException {
         this.endDate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(endDate);
     }
 

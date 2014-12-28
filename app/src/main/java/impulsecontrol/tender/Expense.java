@@ -51,7 +51,7 @@ public class Expense {
         return this.date;
     }
 
-    public void setDate(String date) throws ParseException{
+    public void setDate(String date) throws ParseException {
         this.date = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(date);
     }
 
@@ -74,6 +74,7 @@ public class Expense {
     public Double getAmount() {
         return this.amount;
     }
+
     public void setAmount(Double amount) {
         this.amount = amount;
     }

@@ -53,11 +53,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
 
         // here we try inserting data in the on-create as a test
-        RuntimeExceptionDao<Category, Integer> dao = getCategoryDao();
+        RuntimeExceptionDao<Category, Integer> dao = getCategoryRuntimeDao();
         long millis = System.currentTimeMillis();
         // create some entries in the onCreate
         Category category = new Category();
-        category.setName("test");
+        category.setName("testCategory1");
         category.setInterval(Interval.MONTHLY);
         category.setBudget(200.0);
         try {
@@ -93,7 +93,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * Returns the Database Access Object (DAO) for our Category class. It will create it or just give the cached
      * value.
      */
-    public Dao<Category, Integer> getDao() throws SQLException {
+    public Dao<Category, Integer> getCategoryDao() throws SQLException {
         if (categoryDao == null) {
             categoryDao = getDao(Category.class);
         }
@@ -104,11 +104,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our Category class. It will
      * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
      */
-    public RuntimeExceptionDao<Category, Integer> getCategoryDao() {
+    public RuntimeExceptionDao<Category, Integer> getCategoryRuntimeDao() {
         if (categoryRuntimeDao == null) {
             categoryRuntimeDao = getRuntimeExceptionDao(Category.class);
         }
         return categoryRuntimeDao;
+    }
+
+    public Dao<Expense, Integer> getExpenseDao() throws SQLException {
+        if (expenseDao == null) {
+            expenseDao = getDao(Expense.class);
+        }
+        return expenseDao;
     }
 
     /**

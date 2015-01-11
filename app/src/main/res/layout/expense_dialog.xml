@@ -45,13 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/category"/>
-        <EditText
+        <Spinner
             android:id="@+id/editCategory"
-            android:hint="@string/category"
-            android:minWidth="100dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/editbox_background"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -94,6 +91,7 @@
             android:calendarViewShown="false">
         </DatePicker>
     </LinearLayout>
+
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@ import java.util.Map;
  * Created by kelsey on 12/14/14.
  */
 public enum Interval {
-    WEEK(0),
+    WEEKLY(0),
     MONTHLY(1),
     YEARLY(2);
 
@@ -24,14 +24,28 @@ public enum Interval {
     private int code;
 
     private Interval(int code) {
+
         this.code = code;
     }
 
     public int getCode() {
+
         return code;
     }
 
     public static Interval get(int code) {
+
         return lookup.get(code);
+    }
+
+    public static Interval valueOfString(String value){
+        if(value.equalsIgnoreCase(WEEKLY.toString()))
+            return Interval.WEEKLY;
+        else if(value.equalsIgnoreCase(MONTHLY.toString()))
+            return Interval.MONTHLY;
+        else if(value.equalsIgnoreCase(YEARLY.toString()))
+            return Interval.YEARLY;
+        else
+            return null;
     }
 }

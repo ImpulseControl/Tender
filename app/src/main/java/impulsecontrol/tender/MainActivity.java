@@ -40,13 +40,14 @@ public class MainActivity extends Activity {
 
 
         Bundle args = new Bundle();
-        args.putInt("interval", Interval.WEEK.getCode());
+        args.putInt("interval", Interval.WEEKLY.getCode());
 
         //TODO Add test fragment to Framelayout
         Log.w("Bug", "Attempt: Navigation Manager");
         navigationManager = new NavigationManager(context);
 
         cardListFragment = new CardListFragment();
+        cardListFragment.setArguments(args);
         cardListFragment.setContext(context);
         fragmentTransaction.add(R.id.content_frame, cardListFragment);
         fragmentTransaction.addToBackStack(null);
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             //Pick Item to Display Based on Position
+            selectItem(position);
             //Fragment newfragment = navigationManager.getFragmentFromPosition(position);
 
 
@@ -123,13 +125,51 @@ public class MainActivity extends Activity {
         mDrawerList.setItemChecked(position, true);
         setTitle("Title");
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        switch (position) {
+            case 0:
+            case 1:
+            case 2:
+                selectExpenseFragment(position);
+                break;
+            case 3:
+                selectCategoryFragment(position);
+                break;
+        }
     }
 
-//
-//    @Override
-//    public void setTitle(CharSequence title) {
-////        CharSequence mTitle = title;
-////        getActionBar().setTitle(mTitle);
-//    }
+    private void selectExpenseFragment(int position) {
+
+        CardListFragment fragment = new CardListFragment();
+        fragment.setContext(context);
+        Bundle args = new Bundle();
+        args.putInt("interval", position);
+        fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(NavTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private void selectCategoryFragment(int position) {
+
+        CategoryFragment fragment = new CategoryFragment();
+        fragment.setContext(context);
+        // Insert the fragment by replacing any existing fragment
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(NavTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
 
 }

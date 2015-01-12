@@ -13,9 +13,10 @@
     <string name="amount">Amount</string>
     <string-array
         name="NavViews">
-        <item>Weekyl</item>
-        <item>Monthly</item>
-        <item>Yearly</item>
+        <item>Weekly Expenses</item>
+        <item>Monthly Expenses</item>
+        <item>Yearly Expenses</item>
+        <item>Categories</item>
     </string-array>
 
 </resources>

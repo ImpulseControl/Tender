@@ -47,35 +47,49 @@ public class Category {
         // with at least package visibility
     }
 
+    Category(String name, Double budget, Interval interval) {
+        this.name = name;
+        this.budget = budget;
+        this.interval = interval;
+    }
+
     public int getId() {
+
         return this.id;
     }
 
     public String getName() {
+
         return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public Interval getInterval() {
+
         return this.interval;
     }
 
     public void setInterval(Interval interval) {
+
         this.interval = interval;
     }
 
     public Double getBudget() {
+
         return this.budget;
     }
 
     public void setBudget(Double budget) {
+
         this.budget = budget;
     }
 
     public Date getStartDate() {
+
         return this.startDate;
     }
 

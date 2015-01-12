@@ -48,7 +48,6 @@ public class CardListFragment extends Fragment {
 
 
     public void setContext(Context context) {
-
         this.context = context;
         helper = new DatabaseHelper(context);
     }
@@ -62,14 +61,14 @@ public class CardListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /*//TODO Create List View
+        //TODO Create List View
         //TOOO link List Adapter
         //TODO Add TextBox to List Adapter
 
         //Get Fragment Type (weekly, monthly, yearly)
         Bundle b = getArguments();
         int intervalValue = b.getInt("interval");
-        Interval thisInterval = Interval.get(intervalValue);*/
+        Interval thisInterval = Interval.get(intervalValue);
 
         view = inflater.inflate(R.layout.expense_fragment, container, false);
         fab = (ImageButton) view.findViewById(R.id.add_button);
@@ -178,7 +177,6 @@ public class CardListFragment extends Fragment {
             categories = categoryDao.queryForAll();
         } catch (SQLException e) {
             //TODO: throw useful exception
-            System.out.println("unable to get category database");
         }
 
         List<String> categoryNames = new ArrayList<String>(categories.size());

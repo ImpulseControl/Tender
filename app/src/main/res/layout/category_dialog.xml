@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <!-- TODO:
+            - make sure correct keyboards show up for edit boxes
+            - make it so user can hit "next" to go to next edit box
+            -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"/>
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background"/>
+    </LinearLayout>
+
+    <!-- TODO:
+            - create dropdown menu for categories
+            - need to figure out way to populate with database values
+            - add option to "add new category"
+            - save new categories to the database
+            -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="interval"/>
+        <Spinner
+            android:id="@+id/editInterval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="budget"/>
+        <EditText
+            android:id="@+id/editBudget"
+            android:minWidth="100dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/editbox_background"/>
+    </LinearLayout>
+
+
+</LinearLayout>

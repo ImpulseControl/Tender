@@ -31,7 +31,7 @@ public class Expense {
     @DatabaseField
     private String description;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh=true)
     private Category category;
 
     @DatabaseField
@@ -40,14 +40,23 @@ public class Expense {
     Expense() {
 
     }
+
+    Expense(Date date, String description, Category category, Double amount) {
+        this.date = date;
+        this.description = description;
+        this.category = category;
+        this.amount = amount;
+    }
     //@DatabaseField(nullable = true)
     //User user;
 
     public int getId() {
+
         return this.id;
     }
 
     public Date getDate() {
+
         return this.date;
     }
 
@@ -56,26 +65,32 @@ public class Expense {
     }
 
     public String getDescription() {
+
         return this.description;
     }
 
     public void setDescription(String description) {
+
         this.description = description;
     }
 
     public Category getCategory() {
+
         return this.category;
     }
 
     public void setCategory(Category category) {
+
         this.category = category;
     }
 
     public Double getAmount() {
+
         return this.amount;
     }
 
     public void setAmount(Double amount) {
+
         this.amount = amount;
     }
 }

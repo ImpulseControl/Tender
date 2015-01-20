@@ -8,6 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,7 +38,7 @@ import static android.text.TextUtils.isEmpty;
 /**
  * Created by hummel on 12/20/14.
  */
-public class CardListFragment extends Fragment {
+public class ExpenseFragment extends Fragment {
     private ListManager List;
 
     Context context;
@@ -41,10 +46,12 @@ public class CardListFragment extends Fragment {
     private ImageButton fab;
 
     private String description;
-    private String category;
+    private Category category;
     private Double amount;
     private Date date;
     private DatabaseHelper helper;
+    private Dao<Expense, Integer> expenseDao;
+    private Dao<Category, Integer> categoryDao;
 
 
     public void setContext(Context context) {
@@ -61,9 +68,6 @@ public class CardListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //TODO Create List View
-        //TOOO link List Adapter
-        //TODO Add TextBox to List Adapter
 
         //Get Fragment Type (weekly, monthly, yearly)
         Bundle b = getArguments();
@@ -130,7 +134,6 @@ public class CardListFragment extends Fragment {
                                     canSave = false;
                                 } else {
                                     description = descriptionResult.getText().toString().trim();
-                                    category = String.valueOf(categoryResult.getSelectedItem()).trim();
                                     amount = Double.parseDouble(amountResult.getText().toString().trim());
                                     int day = dateResult.getDayOfMonth();
                                     int month = dateResult.getMonth();
@@ -140,7 +143,17 @@ public class CardListFragment extends Fragment {
                                     calendar.set(year, month, day);
 
                                     date = calendar.getTime();
+                                    String stringCategory = String.valueOf(categoryResult.getSelectedItem()).trim();
 
+                                    try{
+                                        List<Category> results = categoryDao.queryBuilder().where().
+                                                eq("name",stringCategory).query();
+                                        category = results.get(0);
+                                        Expense newExpense = new Expense(date, description, category, amount);
+                                        expenseDao.createOrUpdate(newExpense);
+                                    } catch (SQLException e) {
+                                        //do something with exception
+                                    }
                                     alertDialogBuilder.dismiss();
                                 }
                             }
@@ -187,6 +200,30 @@ public class CardListFragment extends Fragment {
                 simple_spinner_item, categoryNames);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(dataAdapter);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        RecyclerView recyclerList = (RecyclerView) getActivity().findViewById(R.id.expense_list);
+        recyclerList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(context);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerList.setLayoutManager(llm);
+
+        List<Expense> expenseList = new ArrayList<Expense>();
+        try {
+            categoryDao = helper.getCategoryDao();
+            expenseDao = helper.getExpenseDao();
+            expenseList = expenseDao.queryForAll();
+        } catch (SQLException e) {
+            //TODO: throw useful exception
+            Log.e("ExpenseFragment", "database error");
+        }
+        ExpenseAdapter expenseAdapter = new ExpenseAdapter(expenseList);
+        recyclerList.setAdapter(expenseAdapter);
 
     }
 }

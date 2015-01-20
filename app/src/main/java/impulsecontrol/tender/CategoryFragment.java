@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,24 +54,6 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.category_fragment, container, false);
-
-        RecyclerView recyclerList = (RecyclerView) view.findViewById(R.id.category_list);
-        recyclerList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(context);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerList.setLayoutManager(llm);
-
-        List<Category> categoryList = new ArrayList<Category>();
-        try {
-            Dao<Category, Integer> categoryDao = helper.getCategoryDao();
-            categoryList = categoryDao.queryForAll();
-            Log.i("******" , "Category list size: " + categoryList.size());
-        } catch (SQLException e) {
-            //TODO: throw useful exception
-        }
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList);
-        recyclerList.setAdapter(categoryAdapter);
-
 
         fab = (ImageButton) view.findViewById(R.id.add_button);
 
@@ -149,6 +132,28 @@ public class CategoryFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        RecyclerView recyclerList = (RecyclerView) getActivity().findViewById(R.id.category_list);
+        recyclerList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(context);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerList.setLayoutManager(llm);
+
+        List<Category> categoryList = new ArrayList<Category>();
+        try {
+            Dao<Category, Integer> categoryDao = helper.getCategoryDao();
+            categoryList = categoryDao.queryForAll();
+        } catch (SQLException e) {
+            Log.e("CategoryFragment", "unable to retrieve categories from database");
+        }
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList);
+        recyclerList.setAdapter(categoryAdapter);
+
     }
 
     private void addCategoriesToSpinner(Spinner categorySpinner) {

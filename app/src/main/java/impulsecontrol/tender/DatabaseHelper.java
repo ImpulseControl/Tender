@@ -60,12 +60,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         category.setName("testCategory1");
         category.setInterval(Interval.MONTHLY);
         category.setBudget(200.0);
-        try {
+        /*try {
             category.setStartDate("December 1. 2014");
             category.setEndDate("December 31, 2014");
         } catch (ParseException e) {
             Log.e(DatabaseHelper.class.getName(), "can't add dates to category", e);
-        }
+        }*/
         dao.create(category);
         Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);
     }

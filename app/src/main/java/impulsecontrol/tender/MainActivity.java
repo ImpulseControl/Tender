@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
     final Context context = this;
     private NavigationManager navigationManager;
 
-    CardListFragment cardListFragment;
+    ExpenseFragment cardListFragment;
     FragmentManager fragmentManager = getFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         Log.w("Bug", "Attempt: Navigation Manager");
         navigationManager = new NavigationManager(context);
 
-        cardListFragment = new CardListFragment();
+        cardListFragment = new ExpenseFragment();
         cardListFragment.setArguments(args);
         cardListFragment.setContext(context);
         fragmentTransaction.add(R.id.content_frame, cardListFragment);
@@ -140,7 +140,7 @@ public class MainActivity extends Activity {
 
     private void selectExpenseFragment(int position) {
 
-        CardListFragment fragment = new CardListFragment();
+        ExpenseFragment fragment = new ExpenseFragment();
         fragment.setContext(context);
         Bundle args = new Bundle();
         args.putInt("interval", position);

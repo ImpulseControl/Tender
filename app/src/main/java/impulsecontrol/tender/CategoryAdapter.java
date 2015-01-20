@@ -5,17 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.util.Log;
 
 import java.util.List;
 
 /**
  * Created by kelseykerr on 1/11/15.
  */
-public class CategoryAdapter  extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     private List<Category> categoryList;
 
     public CategoryAdapter(List<Category> categoryList) {
+
         this.categoryList = categoryList;
     }
 
@@ -38,7 +40,7 @@ public class CategoryAdapter  extends RecyclerView.Adapter<CategoryAdapter.Categ
     public CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.cardview, viewGroup, false);
+                inflate(R.layout.category_cardview, viewGroup, false);
 
         return new CategoryViewHolder(itemView);
     }

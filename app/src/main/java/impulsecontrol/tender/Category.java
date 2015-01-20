@@ -33,14 +33,14 @@ public class Category {
 
     private Double amountSpent;
 
-    @DatabaseField(columnName = "start_date")
+    /*@DatabaseField(columnName = "start_date")
     private Date startDate;
 
     @DatabaseField(columnName = "end_date")
     private Date endDate;
 
     @DatabaseField(columnName = "is_current")
-    private Boolean isCurrent;
+    private Boolean isCurrent;*/
 
     Category() {
         // all persisted classes must define a no-arg constructor
@@ -88,7 +88,7 @@ public class Category {
         this.budget = budget;
     }
 
-    public Date getStartDate() {
+    /*public Date getStartDate() {
 
         return this.startDate;
     }
@@ -117,7 +117,7 @@ public class Category {
         } else {
             this.isCurrent = false;
         }
-    }
+    }*/
 
     public Double getAmountSpent(Dao categoryDao) throws SQLException {
         GenericRawResults<Double> rawResults =

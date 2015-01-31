@@ -23,11 +23,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +48,7 @@ public class ExpenseFragment extends Fragment {
     Context context;
     View view;
     private ImageButton fab;
-
+    private Interval interval;
     private String description;
     private Category category;
     private Double amount;
@@ -72,7 +76,7 @@ public class ExpenseFragment extends Fragment {
         //Get Fragment Type (weekly, monthly, yearly)
         Bundle b = getArguments();
         int intervalValue = b.getInt("interval");
-        Interval thisInterval = Interval.get(intervalValue);
+        interval = Interval.get(intervalValue);
 
         view = inflater.inflate(R.layout.expense_fragment, container, false);
         fab = (ImageButton) view.findViewById(R.id.add_button);
@@ -217,7 +221,13 @@ public class ExpenseFragment extends Fragment {
         try {
             categoryDao = helper.getCategoryDao();
             expenseDao = helper.getExpenseDao();
-            expenseList = expenseDao.queryForAll();
+            Calendar c = Calendar.getInstance();
+            if (interval.getCode() == 0) {
+                expenseList = getWeeklyList();
+            } else {
+                //TODO: create queries for monthly and yearly lists
+                expenseList = expenseDao.queryForAll();
+            }
         } catch (SQLException e) {
             //TODO: throw useful exception
             Log.e("ExpenseFragment", "database error");
@@ -225,5 +235,20 @@ public class ExpenseFragment extends Fragment {
         ExpenseAdapter expenseAdapter = new ExpenseAdapter(expenseList);
         recyclerList.setAdapter(expenseAdapter);
 
+    }
+
+    private List<Expense> getWeeklyList() throws SQLException {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        QueryBuilder<Expense, Integer> queryBuilder =
+                expenseDao.queryBuilder();
+        Where<Expense, Integer> where = queryBuilder.where();
+        Date startDate = c.getTime();
+        where.ge("date", startDate);
+        where.and();
+        c.add(Calendar.DATE, 6);
+        Date endDate = c.getTime();
+        where.le("date", endDate);
+        return queryBuilder.query();
     }
 }

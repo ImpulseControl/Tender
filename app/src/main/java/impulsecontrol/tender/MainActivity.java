@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.Arrays;
@@ -170,6 +171,16 @@ public class MainActivity extends Activity {
         mDrawerList.setItemChecked(position, true);
         setTitle(NavTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public void clickCard(View v) {
+        LinearLayout descriptionLayout = (LinearLayout) v.findViewById(R.id.description_layout);
+        if (descriptionLayout.getVisibility() == View.VISIBLE) {
+            descriptionLayout.setVisibility(LinearLayout.GONE);
+        } else if (descriptionLayout.getVisibility() == View.GONE) {
+            descriptionLayout.setVisibility(LinearLayout.VISIBLE);
+        }
+
     }
 
 }

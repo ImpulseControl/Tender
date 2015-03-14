@@ -1,22 +1,41 @@
 package impulsecontrol.tender;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static android.R.layout.simple_spinner_item;
 
 
 public class MainActivity extends Activity {
@@ -175,12 +194,14 @@ public class MainActivity extends Activity {
 
     public void clickCard(View v) {
         LinearLayout descriptionLayout = (LinearLayout) v.findViewById(R.id.description_layout);
+        LinearLayout iconLayout = (LinearLayout) v.findViewById(R.id.icon_layout);
         if (descriptionLayout.getVisibility() == View.VISIBLE) {
             descriptionLayout.setVisibility(LinearLayout.GONE);
+            iconLayout.setVisibility(LinearLayout.GONE);
         } else if (descriptionLayout.getVisibility() == View.GONE) {
             descriptionLayout.setVisibility(LinearLayout.VISIBLE);
+            iconLayout.setVisibility(LinearLayout.VISIBLE);
         }
 
     }
-
 }

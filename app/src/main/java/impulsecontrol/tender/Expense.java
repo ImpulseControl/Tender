@@ -64,6 +64,10 @@ public class Expense {
         this.date = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(date);
     }
 
+    public void setRealDate(Date date) {
+        this.date = date;
+    }
+
     public String getDescription() {
 
         return this.description;

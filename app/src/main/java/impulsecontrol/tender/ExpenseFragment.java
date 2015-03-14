@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class ExpenseFragment extends Fragment {
     private DatabaseHelper helper;
     private Dao<Expense, Integer> expenseDao;
     private Dao<Category, Integer> categoryDao;
+    private RecyclerView recyclerList;
+    private ExpenseAdapter expenseAdapter;
 
 
     public void setContext(Context context) {
@@ -80,7 +83,11 @@ public class ExpenseFragment extends Fragment {
 
         view = inflater.inflate(R.layout.expense_fragment, container, false);
         fab = (ImageButton) view.findViewById(R.id.add_button);
+        setFabListener();
+        return view;
+    }
 
+    public void setFabListener() {
         // add button listener
         fab.setOnClickListener(new View.OnClickListener() {
 
@@ -155,6 +162,9 @@ public class ExpenseFragment extends Fragment {
                                         category = results.get(0);
                                         Expense newExpense = new Expense(date, description, category, amount);
                                         expenseDao.createOrUpdate(newExpense);
+                                        expenseAdapter.addExpense(newExpense);
+                                        expenseAdapter.notifyDataSetChanged();
+
                                     } catch (SQLException e) {
                                         //do something with exception
                                     }
@@ -168,11 +178,7 @@ public class ExpenseFragment extends Fragment {
                 alertDialogBuilder.show();
             }
         });
-
-        return view;
     }
-
-
 
     @Override
     public void onResume() {
@@ -212,7 +218,7 @@ public class ExpenseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        RecyclerView recyclerList = (RecyclerView) getActivity().findViewById(R.id.expense_list);
+        recyclerList = (RecyclerView) getActivity().findViewById(R.id.expense_list);
         recyclerList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(context);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -237,7 +243,7 @@ public class ExpenseFragment extends Fragment {
         } catch (SQLException e) {
             Log.e("ExpenseFragment", "database error");
         }
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter(expenseList);
+        expenseAdapter = new ExpenseAdapter(expenseList);
         recyclerList.setAdapter(expenseAdapter);
     }
 

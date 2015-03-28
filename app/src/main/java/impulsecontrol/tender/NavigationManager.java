@@ -18,18 +18,12 @@ public class NavigationManager {
     NavigationManager(Context context) {
         //For Types of Interval Create Fragment;
         Fragments = new ArrayList<ExpenseFragment>();
-        Log.w("Bug", "Attempt: Interval For Loop");
         for (Interval interval : Interval.values()) {
-            Log.w("Bug", "Attempt: New Budble");
             Bundle args = new Bundle();
-            Log.w("Bug", "Attempt: Add to Budle");
             args.putInt("interval", interval.getCode());
-            Log.w("Bug", "Attempt: New Card Fragement");
             ExpenseFragment newFrag = new ExpenseFragment();
             newFrag.setContext(context);
-            Log.w("Bug", "Attempt: Set Bundle to Card");
             newFrag.setArguments(args);
-            Log.w("Bug", "Attempt: Add Fragment");
             Fragments.add(newFrag);
         }
     }

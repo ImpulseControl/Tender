@@ -63,7 +63,6 @@ public class MainActivity extends Activity {
         args.putInt("interval", Interval.WEEKLY.getCode());
 
         //TODO Add test fragment to Framelayout
-        Log.w("Bug", "Attempt: Navigation Manager");
         navigationManager = new NavigationManager(context);
 
         cardListFragment = new ExpenseFragment();
@@ -79,10 +78,8 @@ public class MainActivity extends Activity {
         NavTitles = getResources().getStringArray(R.array.NavViews);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //navigationManager = new NavigationManager();
 
         // Set the adapter for the list view
-        Log.d("this is my array", "arr: " + Arrays.toString(NavTitles));
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, NavTitles));
         // Set the list's click listener
@@ -121,10 +118,6 @@ public class MainActivity extends Activity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             //Pick Item to Display Based on Position
             selectItem(position);
-            //Fragment newfragment = navigationManager.getFragmentFromPosition(position);
-
-
-            Log.w("Nav", "Position: " + position);
         }
     }
 
@@ -137,25 +130,37 @@ public class MainActivity extends Activity {
         // Create a new fragment and specify t
         Fragment fragment = new Fragment();
         Bundle args = new Bundle();
-        //fragment.setArguments();
 
-        //Insert Fragment Using Fragment Manager();
-
-        // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle("Title");
         mDrawerLayout.closeDrawer(mDrawerList);
 
         switch (position) {
             case 0:
+                //selectGraphFragment(position);
+                break;
             case 1:
             case 2:
+            case 3:
                 selectExpenseFragment(position);
                 break;
-            case 3:
+            case 4:
                 selectCategoryFragment(position);
                 break;
         }
+    }
+
+    private void selectGraphFragment(int position) {
+        GraphFragment fragment = new GraphFragment();
+        fragment.setContext(context);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        mDrawerList.setItemChecked(position, true);
+        setTitle(NavTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     private void selectExpenseFragment(int position) {

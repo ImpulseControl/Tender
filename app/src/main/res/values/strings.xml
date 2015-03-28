@@ -13,6 +13,7 @@
     <string name="amount">Amount</string>
     <string-array
         name="NavViews">
+        <item>Graphs &amp; Charts</item>
         <item>Weekly Expenses</item>
         <item>Monthly Expenses</item>
         <item>Yearly Expenses</item>

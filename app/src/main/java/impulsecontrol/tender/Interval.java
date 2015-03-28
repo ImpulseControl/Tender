@@ -8,9 +8,9 @@ import java.util.Map;
  * Created by kelsey on 12/14/14.
  */
 public enum Interval {
-    WEEKLY(0),
-    MONTHLY(1),
-    YEARLY(2);
+    WEEKLY(1),
+    MONTHLY(2),
+    YEARLY(3);
 
     //Convert to Integer and Back
     private static final Map<Integer, Interval> lookup

@@ -80,7 +80,6 @@ public class ExpenseFragment extends Fragment {
         Bundle b = getArguments();
         int intervalValue = b.getInt("interval");
         interval = Interval.get(intervalValue);
-
         view = inflater.inflate(R.layout.expense_fragment, container, false);
         fab = (ImageButton) view.findViewById(R.id.add_button);
         setFabListener();
@@ -230,14 +229,14 @@ public class ExpenseFragment extends Fragment {
             expenseDao = helper.getExpenseDao();
             Calendar c = Calendar.getInstance();
             switch (interval.getCode()) {
-                case 0:
-                    expenseList = getWeeklyList();
-                    break;
                 case 1:
-                    expenseList = getMonthlyList();
+                    expenseList = helper.getWeeklyList();
                     break;
                 case 2:
-                    expenseList = getYearlyList();
+                    expenseList = helper.getMonthlyList();
+                    break;
+                case 3:
+                    expenseList = helper.getYearlyList();
                     break;
             }
         } catch (SQLException e) {
@@ -247,57 +246,5 @@ public class ExpenseFragment extends Fragment {
         recyclerList.setAdapter(expenseAdapter);
     }
 
-    private List<Expense> getWeeklyList() throws SQLException {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        c = setCalendarTime(c, 0, 0, 0, 0);
-        Date startDate = c.getTime();
-        c.add(Calendar.DATE, 6);
-        Date endDate = c.getTime();
-        return createExpenseQuery(startDate, endDate);
-    }
 
-    private List<Expense> getMonthlyList() throws SQLException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        calendar = setCalendarTime(calendar, 0, 0, 0, 0);
-        Date startDate = calendar.getTime();
-
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        calendar = setCalendarTime(calendar, 23, 59, 59, 999);
-        Date endDate = calendar.getTime();
-
-        return createExpenseQuery(startDate, endDate);
-    }
-
-    private List<Expense> getYearlyList() throws SQLException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
-        calendar = setCalendarTime(calendar, 0, 0, 0, 0);
-        Date startDate = calendar.getTime();
-
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
-        calendar = setCalendarTime(calendar, 23, 59, 59, 999);
-        Date endDate = calendar.getTime();
-
-        return createExpenseQuery(startDate, endDate);
-    }
-
-    private Calendar setCalendarTime(Calendar cal, int hour, int minute, int second, int millisecond) {
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minute);
-        cal.set(Calendar.SECOND, second);
-        cal.set(Calendar.MILLISECOND, millisecond);
-        return cal;
-    }
-
-    private List<Expense> createExpenseQuery(Date startDate, Date endDate) throws SQLException {
-        QueryBuilder<Expense, Integer> queryBuilder =
-                expenseDao.queryBuilder();
-        Where<Expense, Integer> where = queryBuilder.where();
-        where.ge("date", startDate);
-        where.and();
-        where.le("date", endDate);
-        return queryBuilder.query();
-    }
 }

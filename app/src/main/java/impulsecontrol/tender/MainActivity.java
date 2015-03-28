@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
 
         switch (position) {
             case 0:
-                //selectGraphFragment(position);
+                selectGraphFragment(position);
                 break;
             case 1:
             case 2:

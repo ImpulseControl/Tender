@@ -5,12 +5,18 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -126,6 +132,98 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         categoryDao = null;
         categoryRuntimeDao = null;
+    }
+
+    public List<Expense> getWeeklyList() throws SQLException {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c = setCalendarTime(c, 0, 0, 0, 0);
+        Date startDate = c.getTime();
+        c.add(Calendar.DATE, 6);
+        Date endDate = c.getTime();
+        return createExpenseQuery(startDate, endDate);
+    }
+
+    public List<Expense> getMonthlyList() throws SQLException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        calendar = setCalendarTime(calendar, 0, 0, 0, 0);
+        Date startDate = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar = setCalendarTime(calendar, 23, 59, 59, 999);
+        Date endDate = calendar.getTime();
+
+        return createExpenseQuery(startDate, endDate);
+    }
+
+    public List<Expense> getYearlyList() throws SQLException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
+        calendar = setCalendarTime(calendar, 0, 0, 0, 0);
+        Date startDate = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+        calendar = setCalendarTime(calendar, 23, 59, 59, 999);
+        Date endDate = calendar.getTime();
+
+        return createExpenseQuery(startDate, endDate);
+    }
+
+    private Calendar setCalendarTime(Calendar cal, int hour, int minute, int second, int millisecond) {
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, second);
+        cal.set(Calendar.MILLISECOND, millisecond);
+        return cal;
+    }
+
+    private List<Expense> createExpenseQuery(Date startDate, Date endDate) throws SQLException {
+        QueryBuilder<Expense, Integer> queryBuilder =
+                expenseDao.queryBuilder();
+        Where<Expense, Integer> where = queryBuilder.where();
+        where.ge("date", startDate);
+        where.and();
+        where.le("date", endDate);
+        return queryBuilder.query();
+    }
+
+    public List<Category> getCategories() {
+        List<Category> categoryList = new ArrayList<Category>();
+        try {
+            Dao<Category, Integer> categoryDao = this.getCategoryDao();
+            categoryList = categoryDao.queryForAll();
+        } catch (SQLException e) {
+            Log.e("CategoryFragment", "unable to retrieve categories from database");
+        }
+        return categoryList;
+    }
+
+    public List<Expense> getExpensesInCategory(Category category, Interval interval) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        calendar = setCalendarTime(calendar, 0, 0, 0, 0);
+        Date startDate = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar = setCalendarTime(calendar, 23, 59, 59, 999);
+        Date endDate = calendar.getTime();
+        try {
+            expenseDao = getExpenseDao();
+            QueryBuilder<Expense, Integer> queryBuilder =
+                    expenseDao.queryBuilder();
+            Where<Expense, Integer> where = queryBuilder.where();
+            where.eq("category_id", category.getId());
+            where.and();
+            where.ge("date", startDate);
+            where.and();
+            where.le("date", endDate);
+            return queryBuilder.query();
+        } catch (SQLException e) {
+            Log.e("database error: ", "Unable to get expenses from database", e);
+        }
+        return null;
+
     }
 
 }

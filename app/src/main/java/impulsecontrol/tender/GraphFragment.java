@@ -36,9 +36,7 @@ public class GraphFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Setting up a test graph
         //TODO: allow the user to switch between intervals
-
         View view = inflater.inflate(R.layout.graph_fragment, container, false);
         List<Category> categories = helper.getCategories();
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -61,7 +59,7 @@ public class GraphFragment extends Fragment {
         dataset.setColors(ColorTemplate.PASTEL_COLORS);
         HorizontalBarChart chart = new HorizontalBarChart(context);
         chart.setDescription(null);
-        chart.animateY(5000);
+        chart.animateY(1000);
         LinearLayout chartContainer = (LinearLayout) view.findViewById(
                 R.id.expense_graph);
         chartContainer.addView(chart);

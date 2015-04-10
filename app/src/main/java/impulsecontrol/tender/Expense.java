@@ -14,14 +14,6 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "expense")
 public class Expense {
 
-    private static String expenses_table = "expenses";
-    private static String expenses_id = "id";
-    private static String expenses_date = "date";
-    private static String expenses_description = "description";
-    private static String expenses_category = "category";
-    private static String expenses_amount = "amount";
-    private static String expenses_user = "user";
-
     @DatabaseField(generatedId = true)
     private int id;
 

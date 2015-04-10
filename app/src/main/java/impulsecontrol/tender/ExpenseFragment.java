@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,26 +17,18 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.R.layout.simple_spinner_item;
-import static android.text.TextUtils.isEmpty;
 
 /**
  * Created by hummel on 12/20/14.
@@ -165,7 +155,7 @@ public class ExpenseFragment extends Fragment {
                                         expenseAdapter.notifyDataSetChanged();
 
                                     } catch (SQLException e) {
-                                        //do something with exception
+                                        Log.e("ExpenseFragment", "Database error while opening expense dialog");
                                     }
                                     alertDialogBuilder.dismiss();
                                 }
@@ -197,9 +187,9 @@ public class ExpenseFragment extends Fragment {
         List<Category> categories = new ArrayList<Category>();
         try {
             Dao<Category, Integer> categoryDao = helper.getCategoryDao();
-            categories = categoryDao.queryForAll();
+            categories = categoryDao.queryBuilder().where().eq("hidden",false).query();
         } catch (SQLException e) {
-            //TODO: throw useful exception
+            Log.e("ExpenseFragment", "Unable to fetch categories");
         }
 
         List<String> categoryNames = new ArrayList<String>(categories.size());

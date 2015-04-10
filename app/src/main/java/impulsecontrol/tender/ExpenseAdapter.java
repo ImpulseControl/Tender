@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -68,10 +67,9 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         String formattedDate = new SimpleDateFormat("MM-dd-yyyy").format(e.getDate());
         expenseViewHolder.vDate.setText(formattedDate);
         expenseViewHolder.vCategory.setText(e.getCategory().getName());
-        NumberFormat format = NumberFormat.getCurrencyInstance();
         NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
-        String amnt = n.format(e.getAmount());
-        expenseViewHolder.vAmount.setText(amnt);
+        String amount = n.format(e.getAmount());
+        expenseViewHolder.vAmount.setText(amount);
         expenseViewHolder.adapter = this;
         expenseViewHolder.descriptionLayout.setVisibility(LinearLayout.GONE);
         expenseViewHolder.iconLayout.setVisibility(LinearLayout.GONE);
@@ -153,7 +151,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         }
 
         public void setEditListener(final View v) {
-            // add button listener
             Button editButton = (Button) v.findViewById(R.id.edit_button);
 
             editButton.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +240,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
                                             helper.getExpenseDao().createOrUpdate(currentExpense);
                                             adapter.notifyItemChanged(index);
                                         } catch (SQLException e) {
-                                            //do something with exception
+                                            Log.e("ExpenseAdapter", "Database error while opening the edit expense dialog");
                                         }
                                         alertDialogBuilder.dismiss();
                                     }
@@ -261,7 +258,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             List<Category> categories = new ArrayList<Category>();
             try {
                 Dao<Category, Integer> categoryDao = helper.getCategoryDao();
-                categories = categoryDao.queryForAll();
+                categories = categoryDao.queryBuilder().where().eq("hidden",false).query();
             } catch (SQLException e) {
                 Log.e("ERROR", "unable to find categories in database");
             }

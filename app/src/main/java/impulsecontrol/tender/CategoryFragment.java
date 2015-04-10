@@ -1,6 +1,5 @@
 package impulsecontrol.tender;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -25,8 +23,6 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static android.R.layout.simple_spinner_item;
@@ -39,11 +35,10 @@ public class CategoryFragment extends Fragment {
     Context context;
     private ImageButton fab;
     private DatabaseHelper helper;
-
     private String name;
-    //change
     private String interval;
     private Double budget;
+    private CategoryAdapter categoryAdapter;
 
     public void setContext(Context context) {
         this.context = context;
@@ -62,7 +57,6 @@ public class CategoryFragment extends Fragment {
 
             public void onClick(View arg0) {
 
-                // get expense_dialog.xml view
                 LayoutInflater li = LayoutInflater.from(context);
                 View categoryDialogView = li.inflate(R.layout.category_dialog, null);
 
@@ -86,7 +80,7 @@ public class CategoryFragment extends Fragment {
                 final Spinner intervalResult = (Spinner) categoryDialogView
                         .findViewById(R.id.editInterval);
 
-                addCategoriesToSpinner(intervalResult);
+                addIntervalsToSpinner(intervalResult);
 
                 final EditText budgetResult = (EditText) categoryDialogView
                         .findViewById(R.id.editBudget);
@@ -117,8 +111,10 @@ public class CategoryFragment extends Fragment {
                                         Dao<Category, Integer> categoryDao = helper.getCategoryDao();
                                         Category newCategory = new Category(name, budget, Interval.valueOfString(interval));
                                         categoryDao.create(newCategory);
+                                        categoryAdapter.addCategory(newCategory);
+                                        categoryAdapter.notifyDataSetChanged();
                                     } catch (SQLException e) {
-                                        //do something with exception
+                                        Log.e("CategoryFragment", "unable to add new category");
                                     }
 
                                     alertDialogBuilder.dismiss();
@@ -147,16 +143,16 @@ public class CategoryFragment extends Fragment {
         List<Category> categoryList = new ArrayList<Category>();
         try {
             Dao<Category, Integer> categoryDao = helper.getCategoryDao();
-            categoryList = categoryDao.queryForAll();
+            categoryList = categoryDao.queryBuilder().where().eq("hidden",false).query();
         } catch (SQLException e) {
             Log.e("CategoryFragment", "unable to retrieve categories from database");
         }
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList);
+        categoryAdapter = new CategoryAdapter(categoryList);
         recyclerList.setAdapter(categoryAdapter);
 
     }
 
-    private void addCategoriesToSpinner(Spinner categorySpinner) {
+    private void addIntervalsToSpinner(Spinner categorySpinner) {
         Interval[] intervals = Interval.values();
         List<String> intervalNames = new ArrayList<String>();
         for (int i =0; i<intervals.length; i++) {

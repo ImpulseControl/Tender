@@ -57,23 +57,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
         }
-
-        // here we try inserting data in the on-create as a test
-        RuntimeExceptionDao<Category, Integer> dao = getCategoryRuntimeDao();
-        long millis = System.currentTimeMillis();
-        // create some entries in the onCreate
-        Category category = new Category();
-        category.setName("testCategory1");
-        category.setInterval(Interval.MONTHLY);
-        category.setBudget(200.0);
-        /*try {
-            category.setStartDate("December 1. 2014");
-            category.setEndDate("December 31, 2014");
-        } catch (ParseException e) {
-            Log.e(DatabaseHelper.class.getName(), "can't add dates to category", e);
-        }*/
-        dao.create(category);
-        Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);
     }
 
     /**
@@ -87,7 +70,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Category.class, true);
             TableUtils.dropTable(connectionSource, Expense.class, true);
             TableUtils.dropTable(connectionSource, User.class, true);
-            // after we drop the old databases, we create the new ones
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -192,7 +174,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         List<Category> categoryList = new ArrayList<Category>();
         try {
             Dao<Category, Integer> categoryDao = this.getCategoryDao();
-            categoryList = categoryDao.queryForAll();
+            categoryList = categoryDao.queryBuilder().where().eq("hidden",false).query();
         } catch (SQLException e) {
             Log.e("CategoryFragment", "unable to retrieve categories from database");
         }
